@@ -47,7 +47,7 @@ jobs:
               return jsonConfig;
             } catch (error) {
               console.error("Unable to read configuration file: ", error);
-              return '{}';
+              return '{ "PROJECT_NAME": "${{ env.PROJECT_NAME }}"}';
             }
 
       - name: Setup Environment
