@@ -20,7 +20,13 @@ jobs:
           key: ${{ runner.os }}-repo-${{ github.sha }}
           restore-keys: |
             ${{ runner.os }}-repo-${{ github.sha }}
-      
+
+      - name: Get project name
+        run: |
+          REPO_NAME=$(echo $GITHUB_REPOSITORY | cut -d'/' -f2)
+          echo "Project name: $REPO_NAME"
+          echo "PROJECT_NAME=$REPO_NAME" >> $GITHUB_ENV
+
       - name: Install yaml library
         run: npm install js-yaml
 
@@ -35,7 +41,8 @@ jobs:
               const config = yaml.load(fs.readFileSync('config.yml', 'utf8'));
               console.log("Configuration file loaded successfully:");
               console.log(config);
-            
+
+              config.set("PROJECT_NAME", ${{ env.PROJECT_NAME }});     
               const jsonConfig = JSON.stringify(config);
               return jsonConfig;
             } catch (error) {
