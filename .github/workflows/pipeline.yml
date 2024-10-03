@@ -61,5 +61,5 @@ jobs:
     uses: ./.github/workflows/release.yml
     with:
       version: ${{ needs.build_candidate.outputs.version }}
-      app-name: micronautguide
+      app-name: ${{ needs.read_config.outputs.json-config.PROJECT_NAME }}
 
