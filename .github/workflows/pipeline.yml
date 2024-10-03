@@ -40,6 +40,8 @@ jobs:
   build_candidate:
     needs: [read_config, unit_tests]
     uses: ./.github/workflows/release-candidate.yml
+    with:
+      configuration: ${{ needs.read_config.outputs.json-config }}
 
   component_tests:
     needs: [read_config, build_candidate]
