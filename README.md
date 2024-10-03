@@ -16,7 +16,7 @@ to be used by all projects. Some goals will include:
 
 After I'm satisfied with the overall flow with a single set of tools, I'll look at branching out. Most likely I'll start with adding gradle as a selectable build tool.
 
-[Quick How-to](docs/Howto.html)
-[Configuration](docs/Configuration.html)
+[Quick How-to](docs/Howto.md)
+[Configuration](docs/Configuration.md)
 [Inspiration](docs/Inspiration.md)
 
