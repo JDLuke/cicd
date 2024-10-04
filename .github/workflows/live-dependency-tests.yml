@@ -28,7 +28,7 @@ jobs:
           path: target/
 
       - name: Run live dependency tests
-        if: ${{ inputs.configuration.dependency_tests == true }}
+        if: ${{ inputs.configuration.dependency_tests != false }}
         # Add your live dependency testing logic here
         run: |
           echo "Running live dependency tests..."

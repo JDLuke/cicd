@@ -46,7 +46,7 @@ jobs:
         run: echo ${{ steps.deserialize.outputs.skip }}
 
       - name: Run component tests
-        if: ${{ inputs.configuration.component_tests == true }}
+        if: ${{ inputs.configuration.component_tests != false }}
         run: |
           echo 
           echo "Running component tests..."
