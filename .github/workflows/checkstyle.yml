@@ -20,6 +20,8 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '17'
+          cache: maven
+
       - name: Run Checkstyle
         run: mvn checkstyle:checkstyle
       - name: Upload Checkstyle Report
