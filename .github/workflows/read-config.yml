@@ -68,15 +68,15 @@ jobs:
               console.log("Configuration file loaded successfully:");
               console.log(config);
 
-              config[JAVA_VERSION] = '${{ steps.default-config.outputs.JAVA_VERSION }}';
-              config[PROJECT_NAME] = '${{ env.PROJECT_NAME }}';     
+              config['JAVA_VERSION'] = '${{ steps.default-config.outputs.JAVA_VERSION }}';
+              config['PROJECT_NAME'] = '${{ env.PROJECT_NAME }}';     
               const jsonConfig = JSON.stringify(config);
               return jsonConfig;
             } catch (error) {
               console.error(error);
               const config = {};
-              config[JAVA_VERSION] = '${{ steps.default-config.outputs.JAVA_VERSION }}';
-              config[PROJECT_NAME] = '${{ env.PROJECT_NAME }}';     
+              config['JAVA_VERSION'] = '${{ steps.default-config.outputs.JAVA_VERSION }}';
+              config['PROJECT_NAME'] = '${{ env.PROJECT_NAME }}';     
               const jsonConfig = JSON.stringify(config);
               return jsonConfig;
             }
