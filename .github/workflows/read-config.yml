@@ -75,7 +75,7 @@ jobs:
             } catch (error) {
               console.error("Unable to read configuration file: ", error);
               return '{ "PROJECT_NAME": "${{ env.PROJECT_NAME }}",
-                        "JAVA_VERSION": "${{ steps.default-config.outputs.JAVA_VERSION }} }';
+                        "JAVA_VERSION": "${{ steps.default-config.outputs.JAVA_VERSION }}" }';
             }
 
       - name: Setup Environment
