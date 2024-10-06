@@ -12,7 +12,33 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       json-config: ${{ steps.env.outputs.json-config }}
+      java-version: ${{ steps.config.outputs.java_version }}
+
     steps:
+      - uses: actions/checkout@v4
+        name: Obtain default pipeline configuration
+        with:
+          repository: JDluke/cicd # Replace with your dedicated pipeline project repository
+          path: cicd-project
+          fetch-depth: 1
+          sparse-checkout: 'default_config.yml'
+
+      - name: Read configuration
+        id: config
+        run: |
+          if [ -f config.yml ]; then
+            java_version=$(cat config.yml | grep java_version | awk '{print $2}')
+          fi
+          if [ -z "$java_version" ]; then
+            if [ -f cicd-project/default_values.yml ]; then
+              java_version=$(cat cicd-project/default_values.yml | grep java_version | awk '{print $2}')
+            else
+              java_version='17' # Fallback default value
+            fi
+          fi
+          echo "Using Java version $java_version"
+          echo "JAVA_VERSION=$java_version" >> $GITHUB_OUTPUT
+
       - name: Restore repository cache
         uses: actions/cache@v4
         with:
