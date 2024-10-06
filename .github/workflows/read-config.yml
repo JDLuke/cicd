@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       json-config: ${{ steps.env.outputs.json-config }}
-      java-version: ${{ steps.config.outputs.java_version }}
+      java-version: ${{ steps.default-config.outputs.java_version }}
 
     steps:
       - uses: actions/checkout@v4
@@ -24,7 +24,7 @@ jobs:
           sparse-checkout: 'default_config.yml'
 
       - name: Read configuration
-        id: config
+        id: default-config
         run: |
           if [ -f config.yml ]; then
             java_version=$(cat config.yml | grep java_version | awk '{print $2}')
@@ -56,8 +56,8 @@ jobs:
       - name: Install yaml library
         run: npm install js-yaml
 
-      - name: Read configuration file
-        id: config
+      - name: Read project configuration file
+        id: project-config
         uses: actions/github-script@v6
         with:
           script: |
@@ -68,12 +68,14 @@ jobs:
               console.log("Configuration file loaded successfully:");
               console.log(config);
 
+              config[JAVA_VERSION] = '${{ steps.default-config.outputs.JAVA_VERSION }}';
               config[PROJECT_NAME] = '${{ env.PROJECT_NAME }}';     
               const jsonConfig = JSON.stringify(config);
               return jsonConfig;
             } catch (error) {
               console.error("Unable to read configuration file: ", error);
-              return '{ "PROJECT_NAME": "${{ env.PROJECT_NAME }}"}';
+              return '{ "PROJECT_NAME": "${{ env.PROJECT_NAME }}",
+                        "JAVA_VERSION": "${{ steps.default-config.outputs.JAVA_VERSION }} }';
             }
 
       - name: Setup Environment
