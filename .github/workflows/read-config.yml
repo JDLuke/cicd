@@ -73,9 +73,12 @@ jobs:
               const jsonConfig = JSON.stringify(config);
               return jsonConfig;
             } catch (error) {
-              console.error("Unable to read configuration file: ", error);
-              return '{ "PROJECT_NAME": "${{ env.PROJECT_NAME }}",
-                        "JAVA_VERSION": "${{ steps.default-config.outputs.JAVA_VERSION }}" }';
+              console.error(error);
+              const config = {};
+              config[JAVA_VERSION] = '${{ steps.default-config.outputs.JAVA_VERSION }}';
+              config[PROJECT_NAME] = '${{ env.PROJECT_NAME }}';     
+              const jsonConfig = JSON.stringify(config);
+              return jsonConfig;
             }
 
       - name: Setup Environment
