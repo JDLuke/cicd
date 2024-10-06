@@ -30,8 +30,8 @@ jobs:
             java_version=$(cat config.yml | grep java_version | awk '{print $2}')
           fi
           if [ -z "$java_version" ]; then
-            if [ -f cicd-project/default_values.yml ]; then
-              java_version=$(cat cicd-project/default_values.yml | grep java_version | awk '{print $2}')
+            if [ -f cicd-project/default_config.yml ]; then
+              java_version=$(cat cicd-project/default_config.yml | grep java_version | awk '{print $2}')
             else
               java_version='17' # Fallback default value
             fi
@@ -84,4 +84,5 @@ jobs:
       - name: Setup Environment
         id: env
         run: |
+          echo Final environment: ${{ steps.config.outputs.result }} 
           echo json-config=${{ steps.config.outputs.result }} >> $GITHUB_OUTPUT
