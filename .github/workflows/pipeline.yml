@@ -32,7 +32,7 @@ jobs:
     uses: ./.github/workflows/publish-checkstyle.yml
 
   lint:
-    needs: checkout
+    needs: [checkout, read_config]
     uses: ./.github/workflows/lint.yml
     with:
       configuration: ${{ needs.read_config.outputs.json-config }}
