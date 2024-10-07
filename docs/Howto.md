@@ -8,16 +8,16 @@ TODO - List out configuration values and their effects on pipeline
 
 ## Configuration Values
 
-| Key               | Default Value   |
-|-------------------|-----------------|
-| java_version      | 17              |
-| java_distribution | temurin         |       
-| java_cache        | maven           |
-| dependency_tests  | false           |
-| component_tests   | false           |
-| bump_version      | false           |
-| create_release    | false           |
-| PROJECT_NAME      | micronaut-guide |
+| *Key*             | *Default Value* | *Required* |
+|:------------------|:----------------|:-----------|
+| java_version      | 17              | Yes        |
+| java_distribution | temurin         | Yes        |   
+| java_cache        | maven           | Yes        |
+| bump_version      | false           | No         |
+| component_tests   | false           | No         |
+| create_release    | false           | No         |
+| dependency_tests  | false           | No         |
+| PROJECT_NAME      | micronaut-guide | No         |
 
 
 
