@@ -7,6 +7,7 @@
 TODO - List out configuration values and their effects on pipeline
 
 ## Configuration Values
+
 | Key               | Default Value   |
 |-------------------|-----------------|
 | java_version      | 17              |
