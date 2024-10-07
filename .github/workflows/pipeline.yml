@@ -22,8 +22,10 @@ jobs:
       environment: ${{ needs.read_config.outputs.json-config }}
 
   generate_checkstyle_report:
-    needs: checkout
+    needs: [read_config, checkout]
     uses: ./.github/workflows/checkstyle.yml
+    with:
+      configuration: ${{ needs.read_config.outputs.json-config }}
 
   publish_checkstyle_report:
     needs: generate_checkstyle_report
@@ -32,10 +34,14 @@ jobs:
   lint:
     needs: checkout
     uses: ./.github/workflows/lint.yml
+    with:
+      configuration: ${{ needs.read_config.outputs.json-config }}
 
   unit_tests:
     needs: lint
     uses: ./.github/workflows/unit-test.yml
+    with:
+      configuration: ${{ needs.read_config.outputs.json-config }}
 
   build_candidate:
     needs: [read_config, unit_tests]
