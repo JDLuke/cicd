@@ -73,5 +73,5 @@ jobs:
       - name: Setup Environment
         id: env
         run: |
-          echo Final environment: ${{ steps.config.outputs.result }} 
-          echo json-config=${{ steps.config.outputs.result }} >> $GITHUB_OUTPUT
+          echo Final environment: ${{ steps.project-config.outputs.result }} 
+          echo json-config=${{ steps.project-config.outputs.result }} >> $GITHUB_OUTPUT
