@@ -19,12 +19,35 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-repo-${{ github.sha }}
 
-      - name: Set up JDK ${{ inputs.configuration.java_version }}
+      - name: Extract configuration
+        id: environment
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const environment = '${{ inputs.environment }}';
+            console.log("Environment: " + environment);
+            try {
+              const parsed = JSON.parse(environment);
+              console.log('Parsed: ' + parsed);
+              for(let key in parsed) {
+                if (parsed.hasOwnProperty(key)) {
+                  console.log(key + ': ' + parsed[key]);
+                  core.exportVariable(key, parsed[key]);
+                }
+              }
+            } catch (error) {
+              console.error("Error parsing JSON:", error);
+              core.setFailed(error.message);
+            }
+
+
+      - name: Set up JDK ${{ env.java_version }}
         uses: actions/setup-java@v4
         with:
-          java-version: ${{ inputs.configuration.java_version }}
-          distribution: ${{ inputs.configuration.java_distribution }}
-          cache: ${{ inputs.configuration.java_cache }}
+          java-version: ${{ env.java_version }}
+          distribution: ${{ env.java_distribution }}
+          cache: ${{ env.java_cache }}
+
 
       - name: Install Maven
         run: sudo apt-get update && sudo apt-get install -y maven
