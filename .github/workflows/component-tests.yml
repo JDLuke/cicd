@@ -27,12 +27,12 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-repo-${{ github.sha }}
 
-      - name: Extract configuration
+      - name: Extract Environment
         id: environment
         uses: actions/github-script@v6
         with:
           script: |
-            const environment = '${{ inputs.environment }}';
+            const environment = '${{ inputs.configuration }}';
             console.log("Environment: " + environment);
             try {
               const parsed = JSON.parse(environment);

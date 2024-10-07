@@ -32,12 +32,12 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v4
 
-      - name: Extract configuration
+      - name: Extract Environment
         id: environment
         uses: actions/github-script@v6
         with:
           script: |
-            const environment = '${{ inputs.environment }}';
+            const environment = '${{ inputs.configuration }}';
             console.log("Environment: " + environment);
             try {
               const parsed = JSON.parse(environment);
@@ -52,7 +52,6 @@ jobs:
               console.error("Error parsing JSON:", error);
               core.setFailed(error.message);
             }
-
 
       - name: Set up JDK ${{ env.java_version }}
         uses: actions/setup-java@v4
