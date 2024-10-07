@@ -38,7 +38,7 @@ jobs:
       configuration: ${{ needs.read_config.outputs.json-config }}
 
   unit_tests:
-    needs: lint
+    needs: [read_config, lint]
     uses: ./.github/workflows/unit-test.yml
     with:
       configuration: ${{ needs.read_config.outputs.json-config }}
