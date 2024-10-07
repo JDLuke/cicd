@@ -32,12 +32,12 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v4
 
-      - name: Set up JDK 17
+      - name: Set up JDK ${{ inputs.configuration.java_version }}
         uses: actions/setup-java@v4
         with:
-          java-version: '17'
-          distribution: 'temurin'
-          cache: maven
+          java-version: ${{ inputs.configuration.java_version }}
+          distribution: ${{ inputs.configuration.java_distribution }}
+          cache: ${{ inputs.configuration.java_cache }}
 
       - name: Bump version
         if: ${{ inputs.configuration.bump_version != false }}

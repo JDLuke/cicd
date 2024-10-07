@@ -3,7 +3,7 @@ name: Generate Checkstyle Report
 on:
   workflow_call:
     inputs:
-      environment:
+      configuration:
         required: true
         type: string
 
@@ -19,12 +19,12 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-repo-${{ github.sha }}
 
-      - name: Set up JDK 17
-        uses: actions/setup-java@v2
+      - name: Set up JDK ${{ inputs.configuration.java_version }}
+        uses: actions/setup-java@v4
         with:
-          distribution: 'temurin'
-          java-version: '17'
-          cache: maven
+          java-version: ${{ inputs.configuration.java_version }}
+          distribution: ${{ inputs.configuration.java_distribution }}
+          cache: ${{ inputs.configuration.java_cache }}
 
       - name: Run Checkstyle
         run: mvn checkstyle:checkstyle

@@ -3,7 +3,7 @@ name: Lint
 on:
   workflow_call:
     inputs:
-      environment:
+      configuration:
         required: true
         type: string
 
@@ -19,12 +19,12 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-repo-${{ github.sha }}
 
-      - name: Set up JDK 17
+      - name: Set up JDK ${{ inputs.configuration.java_version }}
         uses: actions/setup-java@v4
         with:
-          java-version: '17'
-          distribution: 'temurin'
-          cache: maven
+          java-version: ${{ inputs.configuration.java_version }}
+          distribution: ${{ inputs.configuration.java_distribution }}
+          cache: ${{ inputs.configuration.java_cache }}
 
       - name: Install Maven
         run: sudo apt-get update && sudo apt-get install -y maven
