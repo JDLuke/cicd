@@ -15,26 +15,6 @@ jobs:
       java-version: ${{ steps.default-config.outputs.java_version }}
 
     steps:
-      - uses: actions/checkout@v4
-        name: Obtain default pipeline configuration
-        with:
-          repository: JDluke/cicd # Replace with your dedicated pipeline project repository
-          path: cicd-project
-          fetch-depth: 1
-          sparse-checkout: 'default_config.yml'
-
-      - name: Read configuration
-        id: default-config
-        run: |
-          if [ -f cicd-project/default_config.yml ]; then
-            java_version=$(cat cicd-project/default_config.yml | grep java_version | awk '{print $2}')
-          else
-            java_version='17' # Fallback default value
-          fi
-          echo "Using Java version $java_version"
-          echo "JAVA_VERSION=$java_version" >> $GITHUB_OUTPUT
-          echo "JAVA_VERSION=$java_version" >> $GITHUB_ENV
-
       - name: Restore repository cache
         uses: actions/cache@v4
         with:
@@ -52,7 +32,15 @@ jobs:
       - name: Install yaml library
         run: npm install js-yaml
 
-      - name: Read project configuration file
+      - uses: actions/checkout@v4
+        name: Obtain default pipeline configuration
+        with:
+          repository: JDluke/cicd
+          path: cicd-project
+          fetch-depth: 1
+          sparse-checkout: 'default_config.yml'
+
+      - name: Read combined configurations
         id: project-config
         uses: actions/github-script@v6
         with:
@@ -63,7 +51,7 @@ jobs:
             var defaultConfig = {};
             
             try {
-              defaultConfig = yaml.load(fs.readFileSync('cicd_project/default_config.yml', 'utf8'));
+              defaultConfig = yaml.load(fs.readFileSync('cicd-project/default_config.yml', 'utf8'));
               console.log("Default configuration file loaded successfully:");
               console.log(defaultConfig);
             } catch (error) {
