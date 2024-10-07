@@ -26,15 +26,10 @@ jobs:
       - name: Read configuration
         id: default-config
         run: |
-          if [ -f config.yml ]; then
-            java_version=$(cat config.yml | grep java_version | awk '{print $2}')
-          fi
-          if [ -z "$java_version" ]; then
-            if [ -f cicd-project/default_config.yml ]; then
-              java_version=$(cat cicd-project/default_config.yml | grep java_version | awk '{print $2}')
-            else
-              java_version='17' # Fallback default value
-            fi
+          if [ -f cicd-project/default_config.yml ]; then
+            java_version=$(cat cicd-project/default_config.yml | grep java_version | awk '{print $2}')
+          else
+            java_version='17' # Fallback default value
           fi
           echo "Using Java version $java_version"
           echo "JAVA_VERSION=$java_version" >> $GITHUB_OUTPUT
@@ -64,25 +59,28 @@ jobs:
           script: |
             const fs = require('fs');
             const yaml = require('js-yaml');
+            var config = {};
+            var defaultConfig = {};
+            
             try {
-              const config = yaml.load(fs.readFileSync('config.yml', 'utf8'));
-              console.log("Configuration file loaded successfully:");
-              console.log(config);
-
-              config['JAVA_VERSION'] = '${{ env.JAVA_VERSION }}';
-              config['PROJECT_NAME'] = '${{ env.PROJECT_NAME }}';     
-              const jsonConfig = JSON.stringify(config);
-              console.log(jsonConfig);
-              return jsonConfig;
+              defaultConfig = yaml.load(fs.readFileSync('cicd_project/default_config.yml', 'utf8'));
+              console.log("Default configuration file loaded successfully:");
+              console.log(defaultConfig);
             } catch (error) {
               console.error(error);
-              const config = {};
-              config['JAVA_VERSION'] = '${{ env.JAVA_VERSION }}';
-              config['PROJECT_NAME'] = '${{ env.PROJECT_NAME }}';     
-              const jsonConfig = JSON.stringify(config);
-              console.log(jsonConfig);
-              return jsonConfig;
             }
+            
+            try {
+              config = yaml.load(fs.readFileSync('config.yml', 'utf8'));
+              console.log("Project configuration file loaded successfully:");
+              console.log(config);
+            } catch (error) {
+              console.error(error);
+            }
+            
+            const jsonConfig = JSON.stringify({ ...defaultConfig, ...config });
+            console.log(jsonConfig);
+            return jsonConfig;
 
       - name: Setup Environment
         id: env
