@@ -50,6 +50,8 @@ jobs:
             var config = {};
             var defaultConfig = {};
             
+            const gitDefaultConfig = { "PROJECT_NAME": process.env.PROJECT_NAME };
+            
             try {
               defaultConfig = yaml.load(fs.readFileSync('cicd-project/default_config.yml', 'utf8'));
               console.log("Default configuration file loaded successfully:");
@@ -66,7 +68,7 @@ jobs:
               console.error(error);
             }
             
-            const jsonConfig = JSON.stringify({ ...defaultConfig, ...config });
+            const jsonConfig = JSON.stringify({ ...gitDefaultConfig, ...defaultConfig, ...config });
             console.log(jsonConfig);
             return jsonConfig;
 
