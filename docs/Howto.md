@@ -5,3 +5,19 @@
 3. \(Optional\) Add a config.yml file to the root of your project containing any configuration values you wish to override.
 
 TODO - List out configuration values and their effects on pipeline
+
+## Configuration Values
+| Key                      | Default Value |
+|---------------------------|---------------|
+| java_version              | 17            |
+| java_distribution| temurin|       
+| java_cache|  maven        |
+|dependency_tests|false|
+|component_tests|false|
+|bump_version|false|
+|create_release|false|
+|PROJECT_NAME|micronaut-guide|
+
+
+
+

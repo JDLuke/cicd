@@ -24,8 +24,29 @@ jobs:
           name: release-candidate-jar
           path: target/
 
+      - name: Extract Environment
+        id: environment
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const environment = '${{ inputs.configuration }}';
+            console.log("Environment: " + environment);
+            try {
+              const parsed = JSON.parse(environment);
+              console.log('Parsed: ' + parsed);
+              for(let key in parsed) {
+                if (parsed.hasOwnProperty(key)) {
+                  console.log(key + ': ' + parsed[key]);
+                  core.exportVariable(key, parsed[key]);
+                }
+              }
+            } catch (error) {
+              console.error("Error parsing JSON:", error);
+              core.setFailed(error.message);
+            }
+
       - name: Create GitHub Release
-        if: ${{ inputs.configuration.create_release != false }}
+        if: ${{ env.create_release != false }}
         id: create_release
         uses: actions/create-release@v1
         env:
@@ -37,7 +58,7 @@ jobs:
 
       - name: Upload release artifact
         uses: actions/upload-release-asset@v1
-        if: ${{ inputs.configuration.create_release != false }}
+        if: ${{ env.create_release != false }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:

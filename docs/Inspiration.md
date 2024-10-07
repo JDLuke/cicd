@@ -8,3 +8,5 @@ So I built a pipeline in the project. The pipeline itself became my main focus, 
 
 So now, I'm dedicating a repo to this purpose. We'll see how far I take it.
 
+At the very least, I'll accommodate multiple java releases and build systems.
+
