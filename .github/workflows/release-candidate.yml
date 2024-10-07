@@ -61,7 +61,7 @@ jobs:
           cache: ${{ env.java_cache }}
 
       - name: Bump version
-        if: ${{ inputs.configuration.bump_version != false }}
+        if: ${{ env.bump_version != false && env.java_cache == 'maven' }}
         id: bump
         uses: mickem/gh-action-bump-maven-version@v1
         with:
