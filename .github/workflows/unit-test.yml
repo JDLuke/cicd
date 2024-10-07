@@ -2,6 +2,10 @@ name: "Unit Test Action"
 
 on:
   workflow_call:
+    inputs:
+      environment:
+        required: true
+        type: string
     outputs:
       test-result:
         description: "Result of Unit Testing"
