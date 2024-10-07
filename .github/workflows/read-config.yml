@@ -38,6 +38,7 @@ jobs:
           fi
           echo "Using Java version $java_version"
           echo "JAVA_VERSION=$java_version" >> $GITHUB_OUTPUT
+          echo "JAVA_VERSION=$java_version" >> $GITHUB_ENV
 
       - name: Restore repository cache
         uses: actions/cache@v4
@@ -68,16 +69,18 @@ jobs:
               console.log("Configuration file loaded successfully:");
               console.log(config);
 
-              config['JAVA_VERSION'] = '${{ steps.default-config.outputs.JAVA_VERSION }}';
+              config['JAVA_VERSION'] = '${{ env.JAVA_VERSION }}';
               config['PROJECT_NAME'] = '${{ env.PROJECT_NAME }}';     
               const jsonConfig = JSON.stringify(config);
+              console.log(jsonConfig);
               return jsonConfig;
             } catch (error) {
               console.error(error);
               const config = {};
-              config['JAVA_VERSION'] = '${{ steps.default-config.outputs.JAVA_VERSION }}';
+              config['JAVA_VERSION'] = '${{ env.JAVA_VERSION }}';
               config['PROJECT_NAME'] = '${{ env.PROJECT_NAME }}';     
               const jsonConfig = JSON.stringify(config);
+              console.log(jsonConfig);
               return jsonConfig;
             }
 
