@@ -64,10 +64,34 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
 
-      - name: Run unit tests
-        id: run-test
+      - name: Restore Gradle cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - name: Determine build tool
+        id: determine-build-tool
+        run: |
+          if [ -f "pom.xml" ]; then
+            echo "::set-output name=build-tool::maven"
+          elif [ -f "build.gradle" ]; then
+            echo "::set-output name=build-tool::gradle"
+          else
+            echo "No recognized build tool found" && exit 1
+          fi
+
+      - name: Run unit tests with Maven
+        if: steps.determine-build-tool.outputs.build-tool == 'maven'
         run: |
           mvn clean test org.jacoco:jacoco-maven-plugin:prepare-agent org.jacoco:jacoco-maven-plugin:report
+
+      - name: Run unit tests with Gradle
+        if: steps.determine-build-tool.outputs.build-tool == 'gradle'
+        run: |
+          sh ./gradlew clean test jacocoTestReport
 
       - name: Upload JaCoCo report
         uses: actions/upload-artifact@v4

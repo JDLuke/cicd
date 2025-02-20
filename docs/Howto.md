@@ -45,16 +45,16 @@ TODO - List out configuration values and their effects on pipeline
 
 ## Configuration Values
 
-| *Key*             | *Default Value* | *Required* | *Description*                                                                                                 |
-|:------------------|:----------------|:-----------|:--------------------------------------------------------------------------------------------------------------|
-| java_version      | 17              | Yes        | JDK release level                                                                                             |
-| java_distribution | temurin         | Yes        | JDK name                                                                                                      |
-| java_cache        | maven           | Yes        | Cache strategy for Java code                                                                                  |
-| bump_version      | false           | No         | Determines whether or not a successful release candidate will lead to updating the pom.xml with a new version |
-| component_tests   | false           | No         | Disables component testing when set to anything but false                                                     |
-| create_release    | false           | No         | Disables release creation when set to anything but false                                                      |
-| dependency_tests  | false           | No         | Disable dependency testing when set to anything but false                                                     |
-| PROJECT_NAME      | micronaut-guide | No         | Lets you name your project. The default is the repository name                                                |
+| *Key*             | *Default Value*      | *Required* | *Description*                                                                                                 |
+|:------------------|:---------------------|:-----------|:--------------------------------------------------------------------------------------------------------------|
+| java_version      | 17                   | Yes        | JDK release level                                                                                             |
+| java_distribution | temurin              | Yes        | JDK name                                                                                                      |
+| java_cache        | maven                | Yes        | Cache strategy for Java code                                                                                  |
+| bump_version      | false                | No         | Determines whether or not a successful release candidate will lead to updating the pom.xml with a new version |
+| component_tests   | false                | No         | Disables component testing when set to anything but false                                                     |
+| create_release    | false                | No         | Disables release creation when set to anything but false                                                      |
+| dependency_tests  | false                | No         | Disable dependency testing when set to anything but false                                                     |
+| PROJECT_NAME      | Github project name  | No         | Lets you name your project. The default is the repository name                                                |
 
 ## Branches
 
