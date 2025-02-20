@@ -48,8 +48,27 @@ jobs:
           distribution: ${{ env.java_distribution }}
           cache: ${{ env.java_cache }}
 
-      - name: Run Checkstyle
+      - name: Determine build tool
+        id: determine-build-tool
+        run: |
+          if [ -f "pom.xml" ]; then
+            echo "::set-output name=build-tool::maven"
+          elif [ -f "build.gradle" ]; then
+            echo "::set-output name=build-tool::gradle"
+          else
+            echo "No recognized build tool found" && exit 1
+          fi
+
+
+      - name: Run Checkstyle in maven
+        if: steps.determine-build-tool.outputs.build-tool == 'maven'
         run: mvn checkstyle:checkstyle
+
+      - name: Run Checkstyle in gradle
+        if: steps.determine-build-tool.outputs.build-tool == 'gradle'
+        run: sh ./gradlew checkstyleMain
+
+
       - name: Upload Checkstyle Report
         uses: actions/upload-artifact@v4
         with:
