@@ -55,20 +55,8 @@ jobs:
           distribution: ${{ env.java_distribution }}
           cache: ${{ env.java_cache }}
 
-      - name: Determine build tool
-        id: determine-build-tool
-        run: |
-          if [ -f "pom.xml" ]; then
-            echo "::set-output name=build-tool::maven"
-          elif [ -f "build.gradle" ]; then
-            echo "::set-output name=build-tool::gradle"
-          else
-            echo "No recognized build tool found" && exit 1
-          fi
-
-
       - name: Restore Maven cache
-        if: steps.determine-build-tool.outputs.build-tool == 'maven'
+        if: env.java_cache == 'maven'
         uses: actions/cache@v4
         with:
           path: ~/.m2/repository
@@ -77,7 +65,7 @@ jobs:
             ${{ runner.os }}-maven-
 
       - name: Restore Gradle cache
-        if: steps.determine-build-tool.outputs.build-tool == 'gradle'
+        if: env.java_cache == 'gradle'
         uses: actions/cache@v4
         with:
           path: ~/.gradle/caches
@@ -86,12 +74,12 @@ jobs:
             ${{ runner.os }}-gradle-
 
       - name: Run unit tests with Maven
-        if: steps.determine-build-tool.outputs.build-tool == 'maven'
+        if: env.java_cache == 'maven'
         run: |
           mvn clean test org.jacoco:jacoco-maven-plugin:prepare-agent org.jacoco:jacoco-maven-plugin:report
 
       - name: Run unit tests with Gradle
-        if: steps.determine-build-tool.outputs.build-tool == 'gradle'
+        if: env.java_cache == 'gradle'
         run: |
           sh ./gradlew clean test jacocoTestReport
 

@@ -50,9 +50,11 @@ jobs:
 
 
       - name: Install Maven
+        if: env.java_cache == 'maven'
         run: sudo apt-get update && sudo apt-get install -y maven
 
       - name: Cache local Maven repository
+        if: env.java_cache == 'maven'
         uses: actions/cache@v4
         with:
           path: ~/.m2/repository
@@ -60,5 +62,21 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
 
+      - name: Restore Gradle cache
+        if: env.java_cache == 'gradle'
+        uses: actions/cache@v4
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
       - name: Run linter
+        if: env.java_cache == 'maven'
         run: mvn checkstyle:check
+
+      - name: Run linter  with Gradle
+        if: env.java_cache == 'gradle'
+        run: |
+          sh ./gradlew check
+

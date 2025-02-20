@@ -19,17 +19,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-repo-${{ github.sha }}
 
-      - name: Determine build tool
-        id: determine-build-tool
-        run: |
-          if [ -f "pom.xml" ]; then
-            echo "::set-output name=build-tool::maven"
-          elif [ -f "build.gradle" ]; then
-            echo "::set-output name=build-tool::gradle"
-          else
-            echo "No recognized build tool found" && exit 1
-          fi
-
       - name: Extract Environment
         id: environment
         uses: actions/github-script@v6
@@ -57,16 +46,15 @@ jobs:
         with:
           java-version: ${{ env.java_version }}
           distribution: ${{ env.java_distribution }}
-          cache: ${{ steps.determine-build-tool.outputs.build-tool }}
+          cache: ${{ env.java_cache }}
 
       - name: Run Checkstyle in maven
-        if: steps.determine-build-tool.outputs.build-tool == 'maven'
+        if: env.java_cache == 'maven'
         run: mvn checkstyle:checkstyle
 
       - name: Run Checkstyle in gradle
-        if: steps.determine-build-tool.outputs.build-tool == 'gradle'
+        if: env.java_cache == 'gradle'
         run: sh ./gradlew checkstyleMain
-
 
       - name: Upload Checkstyle Report
         uses: actions/upload-artifact@v4
