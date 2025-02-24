@@ -90,12 +90,12 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: release-candidate-jar
-          path: target/
+          path: target/*
 
       - name: Upload gradle artifact
-        if: env.java_cache == 'maven'
+        if: env.java_cache == 'gradle'
         uses: actions/upload-artifact@v4
         with:
           name: release-candidate-jar
-          path: build/libs/
+          path: build/libs/*
 
