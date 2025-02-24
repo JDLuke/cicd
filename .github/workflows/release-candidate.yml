@@ -68,19 +68,34 @@ jobs:
           pom-file: 'pom.xml'
           bump-command: 'mvn versions:set -DnewVersion=@NEW_VERSION@'
 
-      - name: Build release candidate
+# TODO - Make the build target flexible, we aren't always building a bootWar
+      - name: Build release candidate with gradle
+        if: env.java_cache == 'gradle'
+        run: sh ./gradlew clean build bootWar
+
+      - name: Build release candidate with Maven
+        if: env.java_cache == 'maven'
         run: mvn clean package
 
       - name: Update version
+        if: env.java_cache == 'maven'
         id: version
         run: | 
           VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
           echo "VERSION=$VERSION" >> "$GITHUB_ENV"
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
-      - name: Upload artifact
+      - name: Upload maven artifact(s)
+        if: env.java_cache == 'maven'
         uses: actions/upload-artifact@v4
         with:
           name: release-candidate-jar
           path: target/
+
+      - name: Upload gradle artifact
+        if: env.java_cache == 'maven'
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-candidate-jar
+          path: build/libs/
 
