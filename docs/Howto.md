@@ -41,15 +41,15 @@ as the main branch, but as this develops there will be stable version tags added
 3. \(Optional\) Add a config.yml file to the root of your project containing any configuration values you wish to
    override.
 
-TODO - List out configuration values and their effects on pipeline
-
 ## Configuration Values
+
+If you do not have a configuration file, reasonable defaults will be applied.
 
 | *Key*             | *Default Value*      | *Required* | *Description*                                                                                                 |
 |:------------------|:---------------------|:-----------|:--------------------------------------------------------------------------------------------------------------|
-| java_version      | 17                   | Yes        | JDK release level                                                                                             |
-| java_distribution | temurin              | Yes        | JDK name                                                                                                      |
-| java_cache        | maven                | Yes        | Cache strategy for Java code. Supported values are maven and gradle                                           |
+| java_version      | 17                   | No         | JDK release level                                                                                             |
+| java_distribution | temurin              | No         | JDK name                                                                                                      |
+| java_cache        | maven                | No         | Cache strategy for Java code. Supported values are maven and gradle                                           |
 | bump_version      | false                | No         | Determines whether or not a successful release candidate will lead to updating the pom.xml with a new version |
 | component_tests   | false                | No         | Disables component testing when set to anything but false                                                     |
 | create_release    | false                | No         | Disables release creation when set to anything but false                                                      |
