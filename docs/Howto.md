@@ -58,5 +58,6 @@ If you do not have a configuration file, reasonable defaults will be applied.
 
 ## Branches
 
-There is at least one explicit reference to the branch name 'main' within these hallowed halls, so if your main branch
-is still called master you probably want to change that.
+There is at one explicit reference to the branch name 'main' within these hallowed halls, so if your main branch
+is still called master you probably want to change that. This will impact only the 'release' stage and I expect
+that we will remain a bit restrictive about that because we generally don't want to create releases from any random branch.
