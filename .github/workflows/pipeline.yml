@@ -25,7 +25,7 @@ jobs:
     needs: [read_config, checkout]
     uses: ./.github/workflows/checkstyle.yml
     with:
-      configuration: ${{ needs.read_config.outputs.json-config }}
+      environment: ${{ needs.read_config.outputs.json-config }}
 
   publish_checkstyle_report:
     needs: generate_checkstyle_report

@@ -3,7 +3,7 @@ name: Generate Checkstyle Report
 on:
   workflow_call:
     inputs:
-      configuration:
+      environment:
         required: true
         type: string
 
@@ -24,7 +24,7 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
-            const environment = '${{ inputs.configuration }}';
+            const environment = '${{ inputs.environment }}';
             console.log("Environment: " + environment);
             try {
               const parsed = JSON.parse(environment);
