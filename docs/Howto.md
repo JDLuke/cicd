@@ -32,7 +32,7 @@ Finally, we invoke the actual pipeline we want to run. The name (in this case, '
 clause is not, and you need to use this exact syntax. The 'main' part will execute against whatever github currently has
 as the main branch, but as this develops there will be stable version tags added to help everyone retain their sanity.
 
-### Maven project configuration
+### Project configuration
 
 1. In your project root, create a .github/workflows directory
 2. Add a .yml file triggered by your desired event to the workflows directory. For this example, we will use a 'push'
@@ -49,7 +49,7 @@ TODO - List out configuration values and their effects on pipeline
 |:------------------|:---------------------|:-----------|:--------------------------------------------------------------------------------------------------------------|
 | java_version      | 17                   | Yes        | JDK release level                                                                                             |
 | java_distribution | temurin              | Yes        | JDK name                                                                                                      |
-| java_cache        | maven                | Yes        | Cache strategy for Java code                                                                                  |
+| java_cache        | maven                | Yes        | Cache strategy for Java code. Supported values are maven and gradle                                           |
 | bump_version      | false                | No         | Determines whether or not a successful release candidate will lead to updating the pom.xml with a new version |
 | component_tests   | false                | No         | Disables component testing when set to anything but false                                                     |
 | create_release    | false                | No         | Disables release creation when set to anything but false                                                      |
